@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vynox – Web Development Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0f14;
+      --bg2:       #13161e;
+      --bg3:       #1a1e29;
+      --border:    #252a38;
+      --accent:    #6ee7b7;
+      --accent2:   #3b82f6;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --mono:      'Space Mono', monospace;
+      --sans:      'Space Grotesk', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 2.5rem;
+      background: rgba(13,15,20,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 2.5rem 4rem;
+      max-width: 900px; margin: 0 auto;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero-eyebrow::before { content: '> '; }
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    h1 .accent { color: var(--accent); }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border-radius: 6px;
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary { background: var(--accent); color: #0d0f14; }
+    .btn-primary:hover { background: #a7f3d0; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── SECTION BASE ── */
+    section { padding: 5rem 2.5rem; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .about-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+    .about-text p span { color: var(--text); }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem;
+    }
+    .stat-num {
+      font-family: var(--mono);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+
+    /* ── SERVICES ── */
+    #skills { background: var(--bg2); max-width: 100%; }
+    #skills > * { max-width: 900px; margin-left: auto; margin-right: auto; }
+    .skills-inner { max-width: 900px; margin: 0 auto; padding: 5rem 2.5rem; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+    .skill-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.3rem 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .skill-icon { font-size: 1.5rem; margin-bottom: 0.6rem; }
+    .skill-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .skill-level { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; }
+    .skill-bar { margin-top: 0.6rem; height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .skill-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover { border-color: var(--accent2); transform: translateY(-4px); }
+    .project-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent2);
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.25);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.08em;
+    }
+    .project-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.6rem; }
+    .project-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.65; flex: 1; }
+    .project-footer { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--border); display: flex; gap: 0.6rem; }
+    .project-chip { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); background: var(--bg3); border-radius: 4px; padding: 0.2rem 0.5rem; }
+    .empty-project {
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; gap: 0.5rem; color: var(--muted); font-size: 0.9rem;
+      min-height: 180px;
+    }
+    .empty-project span { font-size: 1.5rem; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg2); max-width: 100%; }
+    .contact-inner { max-width: 900px; margin: 0 auto; padding: 5rem 2.5rem; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .contact-info p { color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
+    .contact-email {
+      display: flex; align-items: center; gap: 0.8rem;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.2rem;
+      font-family: var(--mono); font-size: 0.85rem; color: var(--accent);
+      text-decoration: none; transition: border-color 0.2s;
+    }
+    .contact-email:hover { border-color: var(--accent); }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-form input,
+    .contact-form textarea {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      resize: vertical;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: var(--accent); }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: var(--muted); }
+    .contact-form textarea { min-height: 120px; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      section { padding: 4rem 1.2rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .skills-inner { padding: 4rem 1.2rem; }
+      .contact-inner { padding: 4rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">vynox<span class="blink">_</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <p class="hero-eyebrow">Welcome to Vynox Studio</p>
+  <h1>Vynox<br><span class="accent">Studio</span></h1>
+  <p class="hero-sub">
+    A fresh web development studio. We build fast, modern, and affordable websites for businesses and entrepreneurs worldwide.
+  </p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="#contact" class="btn btn-outline">Get in Touch</a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">// about us</p>
+  <h2>Who We Are</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p><span>Vynox</span> is a fresh web development studio specializing in building modern, fast websites for small businesses and entrepreneurs.</p>
+      <p>We work with <span>HTML, CSS</span> and <span>JavaScript</span>. Every project is uniquely tailored to the client — no template solutions.</p>
+      <p>Our goal is simple: your website should work, look professional, and bring you more customers.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">7</div>
+        <div class="stat-label">Day Delivery</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">EU</div>
+        <div class="stat-label">Coverage</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Support</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<div id="skills">
+  <div class="skills-inner">
+    <p class="section-label">// our services</p>
+    <h2>What We Offer</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-name">Website Design</div>
+        <div class="skill-level">CORE SERVICE</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📱</div>
+        <div class="skill-name">Mobile Optimization</div>
+        <div class="skill-level">INCLUDED</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⚡</div>
+        <div class="skill-name">Fast Delivery</div>
+        <div class="skill-level">WITHIN 7 DAYS</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🎨</div>
+        <div class="skill-name">Custom Design</div>
+        <div class="skill-level">100% UNIQUE</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔧</div>
+        <div class="skill-name">Maintenance</div>
+        <div class="skill-level">AVAILABLE</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">💬</div>
+        <div class="skill-name">Support</div>
+        <div class="skill-level">ALWAYS REACHABLE</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="width:100%"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">// projects</p>
+  <h2>Our Work</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <span class="project-tag">HTML / CSS</span>
+      <div class="project-title">Vynox Portfolio Site</div>
+      <div class="project-desc">The site you're looking at right now. Built with clean HTML and CSS, showcasing our services and work.</div>
+      <div class="project-footer">
+        <span class="project-chip">HTML</span>
+        <span class="project-chip">CSS</span>
+      </div>
+    </div>
+    <div class="empty-project">
+      <span>🚧</span>
+      <strong>Project in Progress</strong>
+      <p>New project coming soon...</p>
+    </div>
+    <div class="empty-project">
+      <span>💡</span>
+      <strong>Your Project Here</strong>
+      <p>Let's build something together</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div id="contact">
+  <div class="contact-inner">
+    <p class="section-label">// contact</p>
+    <h2>Let's Work Together</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>Have a project or idea? Reach out and let's build a website that works for your business.</p>
+        <a href="mailto:vynox.studio@gmail.com" class="contact-email">
+          ✉️ &nbsp;vynox.studio@gmail.com
+        </a>
+      </div>
+      <div class="contact-form">
+        <input type="text" placeholder="Your name" />
+        <input type="email" placeholder="Your email" />
+        <textarea placeholder="Tell us about your project..."></textarea>
+        <button class="btn btn-primary" onclick="alert('Thanks for reaching out! We will get back to you soon. 🙌')">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2026 Vynox Studio &nbsp;·&nbsp; Built with 🔥 and code
+</footer>
+
+</body>
+</html>
